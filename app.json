@@ -7,6 +7,8 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "description": "https://github.com/omonteon/mobile-flashcards",
+    "githubUrl": "https://github.com/omonteon/mobile-flashcards"
   }
 }
