@@ -1,10 +1,11 @@
 import { fetchDecksFromStorage } from '../utils/api';
-import { View, Text, Button, FlatList, StyleSheet, StatusBar, SafeAreaView, AsyncStorage } from 'react-native';
+import { View, Text, Button, FlatList, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
-const Item = ({ title, children }) => (
+const Item = ({ title, cardsCount = 0, children }) => (
   <View style={styles.item}>
     <Text style={styles.title}>{title}</Text>
+    <Text>{cardsCount} cards</Text>
     {children}
   </View>
 );
@@ -32,9 +33,9 @@ export default function DeckListScreen({ navigation }) {
   }, [navigation]);
 
   const renderItem = ({ item }) => (
-    <Item title={item.title}>
+    <Item title={item.title} cardsCount={item.questions.length}>
       <Button
-        title="Go to Details"
+        title="Go to Deck"
         onPress={() => navigation.navigate('Details')}
       />
     </Item>
@@ -56,9 +57,12 @@ const styles = StyleSheet.create({
     marginTop: StatusBar.currentHeight || 0,
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderRadius: 3,
+    borderColor: 'rgb(10, 132, 255)',
     padding: 20,
-    marginVertical: 8,
+    marginTop: 8,
     marginHorizontal: 16,
   },
   title: {
