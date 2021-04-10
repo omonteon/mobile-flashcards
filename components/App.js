@@ -1,9 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import DecksListScreen from './DeckListScreen';
+import AddDeckScreen from './AddDeckScreen';
+import Constants from 'expo-constants';
+import { useEffect } from 'react/cjs/react.development';
 
+function UdaciStatusBar ({backgroundColor, ...props}) {
+  return (
+    <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  )
+}
 
 function DetailsScreen() {
   return (
@@ -13,58 +24,35 @@ function DetailsScreen() {
   );
 }
 
-function DecksScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Decks screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
-
-function AddDeckScreen({ navigation }) {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Add Deck Screen</Text>
-    </View>
-  );
-}
 
 const DecksStack = createStackNavigator();
 
 function DecksStackScreen() {
   return (
     <DecksStack.Navigator>
-      <DecksStack.Screen name="Decks" component={DecksScreen} />
+      <DecksStack.Screen name="Decks" component={DecksListScreen} />
       <DecksStack.Screen name="Details" component={DetailsScreen} />
     </DecksStack.Navigator>
   );
 }
 
-const AddDeckStack = createStackNavigator();
-
-function AddDeckStackScreen() {
-  return (
-    <AddDeckStack.Navigator>
-      <AddDeckStack.Screen name="Add deck" component={AddDeckScreen} />
-      <AddDeckStack.Screen name="Details" component={DetailsScreen} />
-    </AddDeckStack.Navigator>
-  );
-}
 
 const Tab = createBottomTabNavigator();
 
 export default function App() {
+  useEffect(() => {
+    AsyncStorage.removeItem('decks');
+  }, [])
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name="Decks" component={DecksStackScreen} />
-        <Tab.Screen name="Add Deck" component={AddDeckStackScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <>
+      <UdaciStatusBar />
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name="Decks" component={DecksStackScreen} />
+          <Tab.Screen name="Add Deck" component={AddDeckScreen} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
 
