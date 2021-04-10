@@ -33,7 +33,7 @@ export default function AddDeckScreen({ navigation }) {
       <View style={styles.container}>
         <Text style={styles.title}>What is the title of your new deck?</Text>
         <TextInput style={styles.textInput} onChangeText={onChangeText} value={deckName} />
-        <TouchableOpacity onPress={submitDeck} style={styles.primaryButton}>
+        <TouchableOpacity onPress={submitDeck} style={[styles.primaryButton, !deckName ? styles.disabledButton : null]} disabled={deckName === ''}>
           <Text style={styles.primaryButtonText}>Submit</Text>
         </TouchableOpacity>
       </View>
@@ -68,6 +68,9 @@ const styles = StyleSheet.create({
     color: 'white',
     textTransform: 'uppercase',
     fontSize: 20,
+  },
+  disabledButton: {
+    backgroundColor: 'gray'
   },
   title: {
     marginTop: 20,
