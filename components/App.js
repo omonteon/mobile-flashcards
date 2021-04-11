@@ -3,6 +3,7 @@ import { StyleSheet, View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import Constants from 'expo-constants';
 import DecksListScreen from './DeckListScreen';
 import AddDeckScreen from './AddDeckScreen';
@@ -18,41 +19,60 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
   )
 }
 
-
-const DecksStack = createStackNavigator();
-
-function DecksStackScreen() {
-  return (
-    <DecksStack.Navigator>
-      <DecksStack.Screen name="Decks" component={DecksListScreen} />
-      <DecksStack.Screen
-        name="DeckDetails"
-        component={DeckScreen}
-        options={({ route }) => ({ title: route.params.title })} />
-      <DecksStack.Screen
-        name="AddCardScreen"
-        options={{ title: 'Add new card' }}
-        component={AddCardScreen} />
-      <DecksStack.Screen
-        name="QuizScreen"
-        options={{ title: 'Quiz' }}
-        component={QuizScreen} />
-    </DecksStack.Navigator>
-  );
-}
-
-
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
+
+function HomeTabs() {
+  return (
+    <Tab.Navigator screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Decks') {
+          iconName = 'ios-list'
+        } else if (route.name === 'AddDeck') {
+          iconName = focused ? 'add-circle' : 'add-circle-outline';
+        }
+        return <Ionicons name={iconName} size={size} color={color} />;
+      },
+    })}
+      tabBarOptions={{
+        activeTintColor: 'cadetblue',
+        inactiveTintColor: 'gray',
+        labelStyle: {
+          fontSize: 14
+        }
+      }}>
+      <Tab.Screen name="Decks" component={DecksListScreen} />
+      <Tab.Screen name="AddDeck" component={AddDeckScreen} />
+    </Tab.Navigator>
+  )
+}
 
 export default function App() {
   return (
     <>
       <UdaciStatusBar />
       <NavigationContainer>
-        <Tab.Navigator>
-          <Tab.Screen name="Decks" component={DecksStackScreen} />
-          <Tab.Screen name="Add Deck" component={AddDeckScreen} />
-        </Tab.Navigator>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Home"
+            component={HomeTabs}
+            options={{ title: 'Decks' }}
+          />
+          <Stack.Screen
+            name="DeckDetails"
+            component={DeckScreen}
+            options={({ route }) => ({ title: route.params.title })} />
+          <Stack.Screen
+            name="AddCardScreen"
+            options={{ title: 'Add new card' }}
+            component={AddCardScreen} />
+          <Stack.Screen
+            name="QuizScreen"
+            options={{ title: 'Quiz' }}
+            component={QuizScreen} />
+        </Stack.Navigator>
       </NavigationContainer>
     </>
   );
