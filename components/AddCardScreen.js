@@ -9,12 +9,13 @@ import {
   Keyboard,
   TouchableWithoutFeedback
 } from 'react-native';
-// import { addCardToStorage } from '../utils/api';
+import { addCardToStorage } from '../utils/api';
 
 
-export default function AddCardScreen({ navigation }) {
+export default function AddCardScreen({ navigation, route }) {
   const [questionText, setQuestionText] = useState('');
   const [answerText, setAnswerText] = useState('');
+  const deckId = route?.params?.deckId;
   const submitDisabled = !questionText || !answerText;
   const onChangeQuestionText = text => {
     setQuestionText(text);
@@ -22,15 +23,15 @@ export default function AddCardScreen({ navigation }) {
   const onChangeAnswerText = text => {
     setAnswerText(text);
   }
-  const submitAnswer = async () => {
-    // const newDeck = {
-    //   title: deckName,
-    //   timestamp: new Date().getTime(),
-    //   questions: []
-    // }
-    // await addDeckToStorage(newDeck);
-    // setDeckName('');
-    // Keyboard.dismiss();
+  const submitCard = async () => {
+    const newCard = {
+      question: questionText,
+      answer: answerText
+    };
+    await addCardToStorage(deckId, newCard);
+    setQuestionText('');
+    setAnswerText('');
+    Keyboard.dismiss();
     navigation.goBack()
   }
   return (
@@ -40,7 +41,7 @@ export default function AddCardScreen({ navigation }) {
         <TextInput style={styles.textInput} onChangeText={onChangeQuestionText} value={questionText} />
         <Text style={styles.title}>Input the answer</Text>
         <TextInput style={styles.textInput} onChangeText={onChangeAnswerText} value={answerText} />
-        <TouchableOpacity onPress={submitAnswer} style={[styles.primaryButton, submitDisabled ? styles.disabledButton : null]} disabled={submitDisabled}>
+        <TouchableOpacity onPress={submitCard} style={[styles.primaryButton, submitDisabled ? styles.disabledButton : null]} disabled={submitDisabled}>
           <Text style={styles.primaryButtonText}>Submit</Text>
         </TouchableOpacity>
       </View>
