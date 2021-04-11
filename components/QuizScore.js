@@ -9,7 +9,7 @@ export default function QuizScore({ count, correct, onRestart, onGoBack }) {
   }, [])
   return (
     <View style={{ flex: 1 }}>
-      <Text style={styles.scoreTitle}>Score</Text>
+      <Text style={styles.scoreTitle}>Score: {correct}</Text>
       <Text style={styles.scoreDetails}>You answered {correct} correct question(s) out of {count} total.</Text>
       <TouchableOpacity style={[styles.primaryButton]} onPress={onRestart}>
         <Text style={styles.primaryButtonText}>Restart quiz</Text>
