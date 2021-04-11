@@ -44,7 +44,6 @@ export async function addCardToStorage(deckId, question) {
     let decks = {};
     if (decksString) {
       decks = JSON.parse(decksString);
-      console.log('API | Deck id:', deckId);
       decks[deckId] = {
         ...decks[deckId],
         questions: decks[deckId] 
@@ -54,6 +53,23 @@ export async function addCardToStorage(deckId, question) {
     } else {
       console.log('There are no decks in the storage');
     }
+    return AsyncStorage.setItem('decks', JSON.stringify(decks));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function deleteDeckFromStorage(deckId) {
+  const decksString = await fetchDecksFromStorage();
+  try {
+    let decks = {};
+    if (decksString) {
+      decks = JSON.parse(decksString);
+      delete decks[deckId];
+    } else {
+      console.log('There are no decks in the storage');
+    }
+    console.log("DECKS AFTER DELETE", decks);
     return AsyncStorage.setItem('decks', JSON.stringify(decks));
   } catch (error) {
     console.error(error);

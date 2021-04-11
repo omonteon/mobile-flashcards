@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
-import { fetchDeckFromStorage } from '../utils/api';
+import { View, Text, TouchableOpacity, StyleSheet, StatusBar, Alert } from 'react-native';
+import { deleteDeckFromStorage, fetchDeckFromStorage } from '../utils/api';
 
 export default function DeckScreen({ navigation, route }) {
   const [deck, setDeck] = useState({})
@@ -15,10 +15,30 @@ export default function DeckScreen({ navigation, route }) {
     return unsubscribe;
   }, [navigation]);
   function onAddCard() {
-    navigation.navigate('AddCardScreen', { deckId: deck.id })
+    navigation.navigate('AddCardScreen', { deckId: deck.id });
   }
   function onStartQuiz() {
-    navigation.navigate('QuizScreen')
+    navigation.navigate('QuizScreen');
+  }
+  function onDeleteDeck() {
+    Alert.alert(
+      "Are you sure?",
+      "This action can't be reversed.",
+      [
+        {
+          text: "Cancel",
+          style: "cancel"
+        },
+        {
+          text: "Delete Deck", onPress: () => {
+            deleteDeckFromStorage(deck?.id)
+              .then(() => {
+                navigation.navigate('Decks');
+              })
+          }
+        }
+      ]
+    );
   }
   return (
     <View >
@@ -36,6 +56,11 @@ export default function DeckScreen({ navigation, route }) {
         <TouchableOpacity onPress={onStartQuiz} style={styles.primaryButton}>
           <Text style={styles.primaryButtonText}>
             Start Quiz
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onDeleteDeck} style={styles.dangerButton}>
+          <Text style={styles.dangerButtonText}>
+            Delete Deck
           </Text>
         </TouchableOpacity>
       </View>
@@ -87,5 +112,15 @@ const styles = StyleSheet.create({
     color: 'white',
     textTransform: 'uppercase',
     fontSize: 20,
+  },
+  dangerButton: {
+    padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 15
+  },
+  dangerButtonText: {
+    color: 'rgb(255, 59, 48)',
+    fontSize: 16,
   },
 })
