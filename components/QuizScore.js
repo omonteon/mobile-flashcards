@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { clearLocalNotification, setLocalNotification } from '../utils/helpers';
 
 export default function QuizScore({ count, correct, onRestart, onGoBack }) {
+  useEffect(() => {
+    //Reset notification upon completing quiz
+    clearLocalNotification().then(setLocalNotification);
+  }, [])
   return (
     <View style={{ flex: 1 }}>
       <Text style={styles.scoreTitle}>Score</Text>

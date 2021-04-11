@@ -12,15 +12,15 @@ const uid = function () {
 // Helper functions for notifications taken from the example project "UdaciFitness" in the course.
 const NOTIFICATION_KEY = 'MOBILE_FLASHCARDS:notifications';
 
-function clearLocalNotification () {
-  return AsyncStorage.removeItem(NOTIFICATION_KEY)
-    .then(Notifications.cancelAllScheduledNotificationsAsync)
+async function clearLocalNotification () {
+  const result = await AsyncStorage.removeItem(NOTIFICATION_KEY);
+  return Notifications.cancelAllScheduledNotificationsAsync(result);
 }
 
 function createNotification () {
   return {
     title: 'Quiz your knowledge !',
-    body: "👋 don't forget to do a quiz today!",
+    body: "👋 don't forget to do a quiz today.",
     ios: {
       sound: true,
     },
@@ -48,13 +48,17 @@ function setLocalNotification () {
               tomorrow.setHours(20)
               tomorrow.setMinutes(0)
 
-              Notifications.scheduleLocalNotificationsAsync(
-                createNotification(),
-                {
-                  time: tomorrow,
-                  repeat: 'day',
-                }
-              )
+              Notifications.setNotificationHandler({
+                handleNotification: async () => ({
+                  shouldShowAlert: true,
+                  shouldPlaySound: true,
+                  shouldSetBadge: true,
+                }),
+              });
+              Notifications.scheduleNotificationAsync({
+                content: createNotification(),
+                trigger: tomorrow
+              });
 
               AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
             }
