@@ -36,7 +36,7 @@ export default function DeckListScreen({ navigation }) {
     <Item title={item.title} cardsCount={item.questions.length}>
       <Button
         title="Go to Deck"
-        onPress={() => navigation.navigate('Details')}
+        onPress={() => navigation.navigate('DeckDetails', { deck: item })}
       />
     </Item>
   );
@@ -58,12 +58,13 @@ const styles = StyleSheet.create({
   },
   item: {
     alignItems: 'center',
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 3,
-    borderColor: 'rgb(10, 132, 255)',
+    borderColor: 'cadetblue',
     padding: 20,
     marginTop: 8,
     marginHorizontal: 16,
+    backgroundColor: 'white'
   },
   title: {
     fontSize: 32,
