@@ -29,6 +29,7 @@ export default function AddDeckScreen({ navigation }) {
     await addDeckToStorage(newDeck);
     setDeckName('');
     Keyboard.dismiss();
+    navigation.navigate('Decks');
     navigation.navigate('DeckDetails', {id, title: deckName });
   }
   return (
@@ -51,8 +52,8 @@ const styles = StyleSheet.create({
     padding: 15
   },
   textInput: {
-    marginTop: 40,
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 10,
     borderColor: 'gray',
     borderWidth: 2,
     borderRadius: 4,
@@ -70,13 +71,14 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     color: 'white',
     textTransform: 'uppercase',
-    fontSize: 20,
+    fontSize: 18,
   },
   disabledButton: {
     backgroundColor: 'gray'
   },
   title: {
-    marginTop: 20,
-    fontSize: 32,
+    marginTop: 5,
+    fontSize: 20,
+    fontWeight: 'bold'
   },
 });
