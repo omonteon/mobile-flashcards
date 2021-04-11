@@ -22,6 +22,8 @@ export default function DeckListScreen({ navigation }) {
             .map(deckId => storedDecks[deckId])
             .sort((deckA, deckB) => deckB.timestamp - deckA.timestamp);
             setDecks(sortedDecks);
+          } else {
+            setDecks([]);
           }
         } catch (error) {
           console.log('Error while fetching decks', error);
