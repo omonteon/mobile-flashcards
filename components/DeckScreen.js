@@ -18,7 +18,7 @@ export default function DeckScreen({ navigation, route }) {
     navigation.navigate('AddCardScreen', { deckId: deck.id });
   }
   function onStartQuiz() {
-    navigation.navigate('QuizScreen');
+    navigation.navigate('QuizScreen', { cards: deck?.questions ?? [] });
   }
   function onDeleteDeck() {
     Alert.alert(
