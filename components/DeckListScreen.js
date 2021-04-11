@@ -36,7 +36,7 @@ export default function DeckListScreen({ navigation }) {
     <Item title={item.title} cardsCount={item.questions.length}>
       <Button
         title="Go to Deck"
-        onPress={() => navigation.navigate('DeckDetails', { deck: item })}
+        onPress={() => navigation.navigate('DeckDetails', { id: item.id, title: item.title })}
       />
     </Item>
   );
