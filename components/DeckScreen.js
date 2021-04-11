@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, StatusBar } from 'react-native';
+import { fetchDeckFromStorage } from '../utils/api';
 
 export default function DeckScreen({ navigation, route }) {
-  const deck = route?.params?.deck;
+  const [deck, setDeck] = useState({})
   const cardsCount = deck?.questions?.length ?? 0;
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchDeckFromStorage(route?.params?.id).then(deckFromStorage => {
+        setDeck(deckFromStorage)
+      })
+    });
+
+    return unsubscribe;
+  }, [navigation]);
   function onAddCard() {
-    navigation.navigate('AddCard')
+    navigation.navigate('AddCardScreen', { deckId: deck.id })
   }
   function onStartQuiz() {
-    navigation.navigate('Quiz')
+    navigation.navigate('QuizScreen')
   }
   return (
     <View >
