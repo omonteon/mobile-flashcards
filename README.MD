@@ -15,6 +15,11 @@ And 4 subsections
 * Start quiz
 * Quiz score
 
+## Platforms tested
+
+This project has been tested in iOS devices.
+Pending testing on Android devices.
+
 ## Installing / Getting started
 
 To get started developing right away:
