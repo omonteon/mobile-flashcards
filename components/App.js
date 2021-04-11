@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { StyleSheet, View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,8 +10,9 @@ import AddDeckScreen from './AddDeckScreen';
 import DeckScreen from './DeckScreen';
 import AddCardScreen from './AddCardScreen';
 import QuizScreen from './QuizScreen';
+import { setLocalNotification } from '../utils/helpers'
 
-function UdaciStatusBar({ backgroundColor, ...props }) {
+function CustomStatusBar({ backgroundColor, ...props }) {
   return (
     <View style={{ backgroundColor, height: Constants.statusBarHeight }}>
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
@@ -50,9 +51,12 @@ function HomeTabs() {
 }
 
 export default function App() {
+  useEffect(() => {
+    setLocalNotification();
+  }, [])
   return (
     <>
-      <UdaciStatusBar />
+      <CustomStatusBar />
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
