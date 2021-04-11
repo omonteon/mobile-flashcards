@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, AsyncStorage, StatusBar } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -8,6 +8,7 @@ import DecksListScreen from './DeckListScreen';
 import AddDeckScreen from './AddDeckScreen';
 import DeckScreen from './DeckScreen';
 import AddCardScreen from './AddCardScreen';
+import QuizScreen from './QuizScreen';
 
 function UdaciStatusBar({ backgroundColor, ...props }) {
   return (
@@ -15,14 +16,6 @@ function UdaciStatusBar({ backgroundColor, ...props }) {
       <StatusBar translucent backgroundColor={backgroundColor} {...props} />
     </View>
   )
-}
-
-function DetailsScreen() {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Detalles</Text>
-    </View>
-  );
 }
 
 
@@ -40,6 +33,10 @@ function DecksStackScreen() {
         name="AddCardScreen"
         options={{ title: 'Add new card' }}
         component={AddCardScreen} />
+      <DecksStack.Screen
+        name="QuizScreen"
+        options={{ title: 'Quiz' }}
+        component={QuizScreen} />
     </DecksStack.Navigator>
   );
 }
@@ -48,9 +45,6 @@ function DecksStackScreen() {
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  useEffect(() => {
-    AsyncStorage.removeItem('decks');
-  }, [])
   return (
     <>
       <UdaciStatusBar />
