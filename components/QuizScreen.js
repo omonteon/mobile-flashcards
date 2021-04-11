@@ -28,7 +28,7 @@ export default function QuizScreen({ route, navigation }) {
     setFinishedQuiz(false);
   }
   if (count === 0) {
-    return (<Text>
+    return (<Text style={styles.title}>
       This quiz has no questions yet.
     </Text>);
   }
@@ -57,5 +57,11 @@ const styles = StyleSheet.create({
   cardCountText: {
     fontSize: 18,
     color: '#000000c0'
-  }
+  },
+  title: {
+    fontSize: 32,
+    textAlign: 'center',
+    marginTop: 40,
+    marginBottom: 10
+  },
 })
