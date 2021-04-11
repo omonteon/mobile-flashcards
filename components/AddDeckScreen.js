@@ -10,6 +10,7 @@ import {
   TouchableWithoutFeedback
 } from 'react-native';
 import { addDeckToStorage } from '../utils/api';
+import { uid } from '../utils/helpers';
 
 
 export default function AddDeckScreen({ navigation }) {
@@ -18,7 +19,9 @@ export default function AddDeckScreen({ navigation }) {
     setDeckName(text);
   }
   const submitDeck = async () => {
+    const id = `id_${uid()}`;
     const newDeck = {
+      id,
       title: deckName,
       timestamp: new Date().getTime(),
       questions: []
@@ -26,7 +29,7 @@ export default function AddDeckScreen({ navigation }) {
     await addDeckToStorage(newDeck);
     setDeckName('');
     Keyboard.dismiss();
-    navigation.navigate('Decks');
+    navigation.navigate('DeckDetails', {id, title: deckName });
   }
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
