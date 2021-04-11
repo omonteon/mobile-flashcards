@@ -3,10 +3,11 @@ import { StyleSheet, Text, View, AsyncStorage, StatusBar } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
+import Constants from 'expo-constants';
 import DecksListScreen from './DeckListScreen';
 import AddDeckScreen from './AddDeckScreen';
 import DeckScreen from './DeckScreen';
-import Constants from 'expo-constants';
+import AddCardScreen from './AddCardScreen';
 
 function UdaciStatusBar({ backgroundColor, ...props }) {
   return (
@@ -34,7 +35,11 @@ function DecksStackScreen() {
       <DecksStack.Screen
         name="DeckDetails"
         component={DeckScreen}
-        options={({ route }) => ({ title: route.params.deck.title })} />
+        options={({ route }) => ({ title: route.params.title })} />
+      <DecksStack.Screen
+        name="AddCardScreen"
+        options={{ title: 'Add new card' }}
+        component={AddCardScreen} />
     </DecksStack.Navigator>
   );
 }
