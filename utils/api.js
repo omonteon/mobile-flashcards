@@ -61,7 +61,6 @@ export async function deleteDeckFromStorage(deckId) {
     } else {
       console.log('There are no decks in the storage');
     }
-    console.log("DECKS AFTER DELETE", decks);
     return AsyncStorage.setItem('decks', JSON.stringify(decks));
   } catch (error) {
     console.error(error);
